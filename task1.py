@@ -1,5 +1,4 @@
 import math
-
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.misc import derivative
@@ -7,11 +6,15 @@ from scipy.misc import derivative
 
 def f(x):
     """
-    Функция преобразовывает введенную строку в математическое выражение
-    с помощью функции eval().
+    Преобразовывает введенную функцию, которая в виде строки,
+    к функции с привязанными математическими методами и парметром x.
 
-    :param x: str -- строка
-    :return: Математическое выражение
+    К примеру: f('sin(x)', 10) вернет функцию, которая
+    высчитывает sin(10)
+
+    :param x: str -- математическая функция в виде строки.
+
+    :return: Выражение Python.
 
     """
     return eval(func,
@@ -24,48 +27,52 @@ def f(x):
 
 def deriv(l_interval, r_interval, prec):
     """
-    Функция для дифференцирования выражения.
+    Дифференцирует функцию.
+
+    :param l_interval: float -- левый конец интервала, на котором вы хотите
+    продифференцировать функцию.
+    :param r_interval: float -- правый конец интервала, на котором вы хотите
+    продифференцировать функцию.
+    :param prec: float -- шаг/точность, с которым вы хотите
+    продифференцировать функцию.
 
     """
-    # todo: поправить название переменной _
     n_1 = 0  # количество точек (int)
 
     deriv_x, deriv_y = [], []  # Значение точек х и
     # значение дифференцирования (list)
 
-    # todo: поправить название переменной _
-    for _ in np.arange(l_interval, r_interval, prec):
+    for step_der in np.arange(l_interval, r_interval, prec):
         try:
-            df = (f(_ + prec) - f(_)) / prec  # дифференцирование
+            df = (f(step_der + prec) - f(step_der)) / prec  # дифференцирование
             # точек вручную (float)
         except ValueError:
             continue
 
-        deriv_x.append(_)
+        deriv_x.append(step_der)
         deriv_y.append(df)
 
         n_1 += 1
 
         try:
-            df2 = derivative(f, _)  # дифференцирование встроенной
+            df2 = derivative(f, step_der)  # дифференцирование встроенной
             # функцией scipy (float)
         except ValueError:
-            print('{} | {} | {} | {} | {}'.format(n_1, round(_, 4),
+            print('{} | {} | {} | {} | {}'.format(n_1, round(step_der, 4),
                                                   df, None, None))
             continue
 
-        print('{} | {} | {} | {} | {}'.format(n_1, round(_, 4), df,
+        print('{} | {} | {} | {} | {}'.format(n_1, round(step_der, 4), df,
                                               df2, df - df2))
 
     list_x, list_y = [], []  # список точек (list)
 
-    # todo: поправить название переменной _
-    for _ in np.arange(l_interval, r_interval, 0.01):
+    for step_der in np.arange(l_interval, r_interval, 0.01):
         try:
-            list_y.append(f(_))
+            list_y.append(f(step_der))
         except ValueError:
             continue
-        list_x.append(_)
+        list_x.append(step_der)
 
     plt.title("Графики функции и производной f(x)")
     plt.xlabel("x")
@@ -82,12 +89,18 @@ def deriv(l_interval, r_interval, prec):
 
 def integ(l_interval, r_interval, count_n):
     """
-    Функция для интегрирования выражения.
+    Интегрирует функцию.
+
+    :param l_interval: float -- левый конец интервала, на котором вы хотите
+    интегрировать функцию.
+    :param r_interval: float -- правый конец интервала, на котором вы хотите
+    интегрировать функцию.
+    :param count_n: float -- шаг сетки.
 
     """
     s = 0  # площадь интегрируемой фигуры (float)
     value_h = (r_interval - l_interval) / count_n  # шаг сетки (float)
-    for _ in np.linspace(l_interval, r_interval, count_n + 1)[1:-1]:
+    for step_int in np.linspace(l_interval, r_interval, count_n + 1)[1:-1]:
         try:
             s += f(_)
             s += f(l_interval) / 2
