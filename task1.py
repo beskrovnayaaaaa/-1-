@@ -1,4 +1,5 @@
 import math
+
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.misc import derivative
@@ -124,8 +125,8 @@ pr = 1
 count = 1
 if operation == 0:
     step_pr = int(input('Введите: \n'
-                          '0, если вы хотите задать точность, \n'
-                          '1, если шаг.\n'))
+                        '0, если вы хотите задать точность, \n'
+                        '1, если шаг.\n'))
     if step_pr == 0:
         pr = float(input('Введите точность: '))
         deriv(l_int, r_int, pr)
@@ -144,7 +145,7 @@ elif operation == 1:
         integ(l_int, r_int, count)
     elif count_step == 1:
         count = round((r_int - l_int) /
-                        float(input('Введите шаг: ')))
+                      float(input('Введите шаг: ')))
         integ(l_int, r_int, count)
     else:
         print('Введенные данные некорректны, пожалуйста, повторите ввод.\n')
